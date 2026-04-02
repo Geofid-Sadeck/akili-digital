@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Akili Digital — Powered by Géofid Nancy</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #080810;
+  --white: #f0f0f5;
+  --violet: #7c3aed;
+  --violet-light: #a78bfa;
+  --violet-glow: rgba(124,58,237,0.15);
+  --violet-border: rgba(167,139,250,0.25);
+  --grey: #1a1a2e;
+  --grey-mid: #6b6b8a;
+  --grey-light: #c4c4d4;
+  --accent: #a78bfa;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+body::before {
+  content:'';
+  position:fixed; inset:0;
+  background:
+    radial-gradient(ellipse 80% 50% at 100% 0%, rgba(124,58,237,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 0% 100%, rgba(124,58,237,0.08) 0%, transparent 60%);
+  pointer-events:none; z-index:0;
+}
+
+/* ─── NAV ─── */
+nav {
+  position:fixed; top:0; left:0; right:0;
+  padding:1.4rem 4rem;
+  display:flex; justify-content:space-between; align-items:center;
+  z-index:99;
+  background:rgba(8,8,16,0.85);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(167,139,250,0.1);
+}
+
+.logo {
+  font-family:'Playfair Display', serif;
+  font-size:1.5rem; font-weight:900;
+  letter-spacing:0.04em;
+}
+.logo .akili { color:var(--white); }
+.logo .dot { color:var(--violet-light); }
+.logo .digital { color:var(--violet-light); }
+.logo .powered {
+  display:block;
+  font-family:'DM Sans', sans-serif;
+  font-size:0.6rem; font-weight:400;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:var(--grey-mid);
+  margin-top:1px;
+}
+
+.nav-links { display:flex; gap:2.5rem; align-items:center; }
+.nav-links a {
+  color:var(--grey-light);
+  text-decoration:none;
+  font-size:0.82rem;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  transition:color 0.3s;
+}
+.nav-links a:hover { color:var(--violet-light); }
+
+.btn-nav {
+  background:var(--violet);
+  color:#fff !important;
+  padding:0.55rem 1.4rem;
+  border-radius:4px;
+  font-weight:500 !important;
+  transition:background 0.3s !important;
+}
+.btn-nav:hover { background:#6d28d9 !important; }
+
+/* ─── HERO ─── */
+.hero {
+  min-height:100vh;
+  display:flex; align-items:center;
+  padding:9rem 4rem 5rem;
+  position:relative; z-index:1;
+}
+
+.hero-content { max-width:700px; }
+
+.hero-badge {
+  display:inline-flex; align-items:center; gap:0.5rem;
+  border:1px solid var(--violet-border);
+  background:rgba(124,58,237,0.08);
+  padding:0.4rem 1rem;
+  border-radius:100px;
+  font-size:0.72rem;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  color:var(--violet-light);
+  margin-bottom:2.5rem;
+  animation:fadeUp 0.7s ease both;
+}
+.hero-badge::before {
+  content:'';
+  width:6px; height:6px;
+  border-radius:50%;
+  background:var(--violet-light);
+  box-shadow:0 0 8px var(--violet-light);
+  animation:pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,100% { opacity:1; }
+  50% { opacity:0.3; }
+}
+
+h1 {
+  font-family:'Playfair Display', serif;
+  font-size:clamp(2.8rem, 6vw, 5rem);
+  font-weight:900;
+  line-height:1.05;
+  margin-bottom:1.5rem;
+  animation:fadeUp 0.7s 0.1s ease both;
+}
+h1 em {
+  font-style:italic;
+  color:var(--violet-light);
+  display:block;
+}
+
+.hero-sub {
+  font-size:1.05rem;
+  color:var(--grey-light);
+  line-height:1.7;
+  max-width:520px;
+  margin-bottom:3rem;
+  animation:fadeUp 0.7s 0.2s ease both;
+}
+
+.hero-ctas {
+  display:flex; gap:1rem; flex-wrap:wrap;
+  animation:fadeUp 0.7s 0.3s ease both;
+}
+
+.btn-primary {
+  background:var(--violet);
+  color:#fff;
+  padding:0.9rem 2rem;
+  border-radius:6px;
+  text-decoration:none;
+  font-size:0.9rem;
+  font-weight:500;
+  letter-spacing:0.05em;
+  transition:all 0.3s;
+  box-shadow:0 0 30px rgba(124,58,237,0.3);
+}
+.btn-primary:hover {
+  background:#6d28d9;
+  box-shadow:0 0 50px rgba(124,58,237,0.5);
+  transform:translateY(-2px);
+}
+
+.btn-secondary {
+  border:1px solid var(--violet-border);
+  color:var(--violet-light);
+  padding:0.9rem 2rem;
+  border-radius:6px;
+  text-decoration:none;
+  font-size:0.9rem;
+  font-weight:400;
+  transition:all 0.3s;
+}
+.btn-secondary:hover {
+  background:var(--violet-glow);
+  border-color:var(--violet-light);
+}
+
+.hero-stats {
+  display:flex; gap:3rem;
+  margin-top:5rem;
+  padding-top:3rem;
+  border-top:1px solid rgba(255,255,255,0.06);
+  animation:fadeUp 0.7s 0.4s ease both;
+}
+.stat-num {
+  font-family:'Playfair Display', serif;
+  font-size:2rem; font-weight:700;
+  color:var(--violet-light);
+}
+.stat-label {
+  font-size:0.78rem;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--grey-mid);
+  margin-top:0.2rem;
+}
+
+/* ─── SECTION BASE ─── */
+section {
+  padding:7rem 4rem;
+  position:relative; z-index:1;
+}
+
+.section-tag {
+  font-size:0.72rem;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:var(--violet-light);
+  margin-bottom:1rem;
+}
+
+h2 {
+  font-family:'Playfair Display', serif;
+  font-size:clamp(2rem, 4vw, 3rem);
+  font-weight:700;
+  line-height:1.15;
+  margin-bottom:1rem;
+}
+
+.section-sub {
+  color:var(--grey-light);
+  font-size:0.98rem;
+  line-height:1.7;
+  max-width:500px;
+  margin-bottom:4rem;
+}
+
+/* ─── PROCESS ─── */
+.process { background:rgba(255,255,255,0.02); }
+
+.steps {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+  gap:2rem;
+}
+
+.step {
+  padding:2rem;
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:12px;
+  background:rgba(124,58,237,0.04);
+  position:relative;
+  transition:all 0.3s;
+}
+.step:hover {
+  border-color:var(--violet-border);
+  background:rgba(124,58,237,0.08);
+  transform:translateY(-4px);
+}
+
+.step-num {
+  font-family:'Playfair Display', serif;
+  font-size:3rem; font-weight:900;
+  color:rgba(124,58,237,0.2);
+  line-height:1;
+  margin-bottom:1rem;
+}
+.step h3 {
+  font-size:1rem; font-weight:600;
+  margin-bottom:0.6rem;
+  color:var(--white);
+}
+.step p {
+  font-size:0.85rem;
+  color:var(--grey-light);
+  line-height:1.6;
+}
+
+/* ─── OFFRES ─── */
+.offres-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+  gap:1.5rem;
+}
+
+.offre-card {
+  padding:2rem;
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:12px;
+  background:rgba(255,255,255,0.02);
+  transition:all 0.3s;
+  position:relative;
+  overflow:hidden;
+}
+.offre-card::before {
+  content:'';
+  position:absolute;
+  top:0; left:0; right:0;
+  height:2px;
+  background:linear-gradient(90deg, transparent, var(--violet), transparent);
+  opacity:0;
+  transition:opacity 0.3s;
+}
+.offre-card:hover {
+  border-color:var(--violet-border);
+  background:rgba(124,58,237,0.06);
+  transform:translateY(-4px);
+}
+.offre-card:hover::before { opacity:1; }
+
+.offre-card.featured {
+  border-color:var(--violet-border);
+  background:rgba(124,58,237,0.1);
+}
+.offre-card.featured::before { opacity:1; }
+
+.offre-icon {
+  font-size:1.8rem;
+  margin-bottom:1rem;
+}
+.offre-card h3 {
+  font-size:1rem; font-weight:600;
+  margin-bottom:0.5rem;
+}
+.offre-card p {
+  font-size:0.82rem;
+  color:var(--grey-light);
+  line-height:1.6;
+  margin-bottom:1.5rem;
+}
+.offre-price {
+  font-family:'Playfair Display', serif;
+  font-size:1.4rem; font-weight:700;
+  color:var(--violet-light);
+}
+.offre-price span {
+  font-family:'DM Sans', sans-serif;
+  font-size:0.75rem;
+  color:var(--grey-mid);
+  font-weight:300;
+}
+
+.badge-pop {
+  display:inline-block;
+  background:var(--violet);
+  color:#fff;
+  font-size:0.65rem;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  padding:0.25rem 0.6rem;
+  border-radius:4px;
+  margin-bottom:0.8rem;
+}
+
+/* ─── FORMULAIRE IA ─── */
+.form-section {
+  background:rgba(124,58,237,0.04);
+  border-top:1px solid rgba(167,139,250,0.1);
+  border-bottom:1px solid rgba(167,139,250,0.1);
+}
+
+.form-wrap {
+  max-width:700px;
+  margin:0 auto;
+}
+
+.form-steps { display:flex; flex-direction:column; gap:1.5rem; }
+
+.form-group label {
+  display:block;
+  font-size:0.8rem;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--violet-light);
+  margin-bottom:0.6rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width:100%;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:8px;
+  padding:0.9rem 1.2rem;
+  color:var(--white);
+  font-family:'DM Sans', sans-serif;
+  font-size:0.92rem;
+  outline:none;
+  transition:border-color 0.3s, box-shadow 0.3s;
+  resize:vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color:var(--violet);
+  box-shadow:0 0 0 3px rgba(124,58,237,0.15);
+}
+
+.form-group select option { background:#1a1a2e; }
+
+.form-row {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1.5rem;
+}
+
+.btn-submit {
+  width:100%;
+  background:var(--violet);
+  color:#fff;
+  border:none;
+  padding:1.1rem 2rem;
+  border-radius:8px;
+  font-family:'DM Sans', sans-serif;
+  font-size:1rem;
+  font-weight:500;
+  letter-spacing:0.05em;
+  cursor:pointer;
+  transition:all 0.3s;
+  box-shadow:0 0 30px rgba(124,58,237,0.3);
+  margin-top:1rem;
+  position:relative;
+  overflow:hidden;
+}
+.btn-submit:hover {
+  background:#6d28d9;
+  box-shadow:0 0 50px rgba(124,58,237,0.5);
+}
+.btn-submit:disabled {
+  opacity:0.7; cursor:not-allowed;
+}
+
+/* ─── RÉSULTAT IA ─── */
+#result-box {
+  display:none;
+  margin-top:2.5rem;
+  padding:2rem;
+  border:1px solid var(--violet-border);
+  border-radius:12px;
+  background:rgba(124,58,237,0.08);
+  animation:fadeUp 0.5s ease both;
+}
+
+.result-header {
+  display:flex; align-items:center; gap:0.8rem;
+  margin-bottom:1.5rem;
+  padding-bottom:1rem;
+  border-bottom:1px solid rgba(167,139,250,0.15);
+}
+.result-header .ai-badge {
+  background:var(--violet);
+  color:#fff;
+  font-size:0.7rem;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  padding:0.3rem 0.7rem;
+  border-radius:4px;
+}
+.result-header p {
+  font-size:0.85rem;
+  color:var(--grey-light);
+}
+
+#result-text {
+  font-size:0.95rem;
+  line-height:1.8;
+  color:var(--white);
+  white-space:pre-line;
+}
+
+.result-cta {
+  margin-top:2rem;
+  padding-top:1.5rem;
+  border-top:1px solid rgba(167,139,250,0.15);
+}
+.result-cta p {
+  font-size:0.85rem;
+  color:var(--grey-light);
+  margin-bottom:1rem;
+}
+
+.btn-whatsapp {
+  display:inline-flex;
+  align-items:center;
+  gap:0.6rem;
+  background:#25D366;
+  color:#fff;
+  padding:0.85rem 1.8rem;
+  border-radius:8px;
+  text-decoration:none;
+  font-weight:500;
+  font-size:0.9rem;
+  transition:all 0.3s;
+  box-shadow:0 0 20px rgba(37,211,102,0.3);
+}
+.btn-whatsapp:hover {
+  background:#1db954;
+  transform:translateY(-2px);
+  box-shadow:0 0 35px rgba(37,211,102,0.4);
+}
+
+.loading-dots {
+  display:none;
+  gap:0.4rem;
+  align-items:center;
+  justify-content:center;
+}
+.loading-dots span {
+  width:6px; height:6px;
+  border-radius:50%;
+  background:var(--violet-light);
+  animation:dot-bounce 1.4s infinite;
+}
+.loading-dots span:nth-child(2) { animation-delay:0.2s; }
+.loading-dots span:nth-child(3) { animation-delay:0.4s; }
+@keyframes dot-bounce {
+  0%,80%,100% { transform:translateY(0); opacity:0.4; }
+  40% { transform:translateY(-8px); opacity:1; }
+}
+
+/* ─── FOOTER ─── */
+footer {
+  padding:3rem 4rem;
+  border-top:1px solid rgba(255,255,255,0.06);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:1rem;
+}
+
+footer .logo { font-size:1.1rem; }
+footer p {
+  font-size:0.78rem;
+  color:var(--grey-mid);
+}
+
+.quiz-option {
+  width:100%;
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:8px;
+  padding:0.85rem 1.2rem;
+  color:var(--white);
+  font-family:'DM Sans', sans-serif;
+  font-size:0.9rem;
+  text-align:left;
+  cursor:pointer;
+  transition:all 0.2s;
+}
+.quiz-option:hover {
+  border-color:var(--violet-light);
+  background:rgba(124,58,237,0.12);
+  transform:translateX(4px);
+}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(20px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+.reveal {
+  opacity:0;
+  transform:translateY(30px);
+  transition:opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:768px) {
+  nav { padding:1.2rem 1.5rem; }
+  .nav-links { display:none; }
+  section { padding:5rem 1.5rem; }
+  .hero { padding:8rem 1.5rem 4rem; }
+  .form-row { grid-template-columns:1fr; }
+  footer { padding:2rem 1.5rem; flex-direction:column; text-align:center; }
+  .hero-stats { gap:1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    <span class="akili">Akili</span><span class="dot">.</span><span class="digital">Digital</span>
+    <span class="powered">Powered by Géofid Nancy</span>
+  </div>
+  <div class="nav-links">
+    <a href="#process">Comment ça marche</a>
+    <a href="#offres">Offres</a>
+    <a href="#diagnostic">Diagnostic IA</a>
+    <a href="#diagnostic" class="btn-nav">Démarrer</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">Afrique Francophone · Digital · Résultats</div>
+    <h1>
+      Votre idée mérite
+      <em>une vraie présence</em>
+      digitale.
+    </h1>
+    <p class="hero-sub">
+      Akili Digital transforme vos idées et petits business en présences digitales claires, visibles et efficaces — sans jargon technique, sans prix excessifs.
+    </p>
+    <div class="hero-ctas">
+      <a href="#diagnostic" class="btn-primary">Analyser mon idée gratuitement →</a>
+      <a href="#offres" class="btn-secondary">Voir les offres</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">⏱</div>
+        <div class="stat-label">Selon le projet</div>
+      </div>
+      <div>
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Sur mesure</div>
+      </div>
+      <div>
+        <div class="stat-num">0</div>
+        <div class="stat-label">Jargon inutile</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="section-tag">Comment ça marche</div>
+  <h2>Simple. Rapide.<br>Efficace.</h2>
+  <p class="section-sub">Pas besoin d'être expert du digital. On s'occupe de tout.</p>
+
+  <div class="steps reveal">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>Décris ton idée</h3>
+      <p>Remplis notre formulaire intelligent. Dis-nous ton activité, tes objectifs, ton budget.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>Analyse IA instantanée</h3>
+      <p>Notre IA analyse ton idée et te propose immédiatement une stratégie digitale personnalisée.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>On discute sur WhatsApp</h3>
+      <p>Tu arrives avec ton analyse déjà faite. On affine ensemble et on démarre rapidement.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h3>Tu reçois ton livrable</h3>
+      <p>Site, page, profil, stratégie — livré en 24 à 48h. Tu es visible, tu peux vendre.</p>
+    </div>
+  </div>
+</section>
+
+<!-- OFFRES -->
+<section id="offres">
+  <div class="section-tag">Nos offres</div>
+  <h2>Ce qu'on peut<br>faire pour toi</h2>
+  <p class="section-sub">Des solutions concrètes, avec des prix clairs. Tu sais exactement ce que tu obtiens.</p>
+
+  <div class="offres-grid reveal">
+
+    <div class="offre-card">
+      <div class="offre-icon">💬</div>
+      <h3>WhatsApp Business Pro</h3>
+      <p>Configuration complète avec catalogue produits, message automatique et profil professionnel.</p>
+      <div class="offre-price">15 000 <span>— 25 000 FCFA</span></div>
+    </div>
+
+    <div class="offre-card">
+      <div class="offre-icon">🔗</div>
+      <h3>Lien Bio Professionnel</h3>
+      <p>Une page unique qui centralise tous tes liens, services et contacts. Parfait pour les réseaux sociaux.</p>
+      <div class="offre-price">10 000 <span>— 20 000 FCFA</span></div>
+    </div>
+
+    <div class="offre-card featured">
+      <div class="badge-pop">⚡ Populaire</div>
+      <div class="offre-icon">📱</div>
+      <h3>Présence Réseaux Sociaux</h3>
+      <p>Création et configuration de tes pages Facebook/Instagram avec bio, visuels et premiers posts.</p>
+      <div class="offre-price">20 000 <span>— 40 000 FCFA</span></div>
+    </div>
+
+    <div class="offre-card">
+      <div class="offre-icon">🌐</div>
+      <h3>Mini Site Vitrine</h3>
+      <p>Un site simple, rapide et mobile, qui présente ton activité, tes services et tes contacts.</p>
+      <div class="offre-price">50 000 <span>— 80 000 FCFA</span></div>
+    </div>
+
+    <div class="offre-card">
+      <div class="offre-icon">🧠</div>
+      <h3>Stratégie Digitale</h3>
+      <p>On analyse ton business et on te donne un plan d'action digital clair et priorisé.</p>
+      <div class="offre-price">15 000 <span>— 30 000 FCFA</span></div>
+    </div>
+
+    <div class="offre-card">
+      <div class="offre-icon">🚀</div>
+      <h3>Pack Complet Lancement</h3>
+      <p>Site + réseaux + WhatsApp + stratégie. Tout pour démarrer visible et professionnel.</p>
+      <div class="offre-price">100 000 <span>— 150 000 FCFA</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- DIAGNOSTIC IA -->
+<section class="form-section" id="diagnostic">
+  <div class="form-wrap">
+    <div class="section-tag">Diagnostic IA Gratuit</div>
+    <h2>Décris ton idée.<br>On l'analyse pour toi.</h2>
+    <p class="section-sub">Réponds à quelques questions. Notre IA te génère une recommandation personnalisée en quelques secondes.</p>
+
+    <div class="form-steps reveal">
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Ton prénom</label>
+          <input type="text" id="prenom" placeholder="Ex : Kofi" />
+        </div>
+        <div class="form-group">
+          <label>Ton secteur d'activité</label>
+          <select id="secteur">
+            <option value="">Choisir...</option>
+            <option>Commerce / Vente</option>
+            <option>Artisanat / Création</option>
+            <option>Restauration / Food</option>
+            <option>Services (coiffure, couture...)</option>
+            <option>Musique / Art / Divertissement</option>
+            <option>Éducation / Formation</option>
+            <option>Santé / Bien-être</option>
+            <option>Transport / Livraison</option>
+            <option>Influenceur / Créateur de contenu</option>
+            <option>Autre</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Décris ton idée ou ton business</label>
+        <textarea id="idee" rows="4" placeholder="Ex : Je vends des pagnes et tenues africaines sur WhatsApp mais je veux toucher plus de clients..."></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Ton objectif principal</label>
+          <select id="objectif">
+            <option value="">Choisir...</option>
+            <option>Être visible en ligne</option>
+            <option>Vendre plus de produits/services</option>
+            <option>Trouver des clients</option>
+            <option>Construire ma marque personnelle</option>
+            <option>Développer ma communauté</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Ton budget approximatif</label>
+          <select id="budget">
+            <option value="">Choisir...</option>
+            <option>Moins de 20 000 FCFA</option>
+            <option>20 000 – 50 000 FCFA</option>
+            <option>50 000 – 100 000 FCFA</option>
+            <option>Plus de 100 000 FCFA</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Présence digitale actuelle</label>
+        <select id="presence">
+          <option value="">Choisir...</option>
+          <option>Aucune présence pour l'instant</option>
+          <option>Seulement WhatsApp personnel</option>
+          <option>Une page Facebook ou Instagram</option>
+          <option>Plusieurs réseaux actifs</option>
+          <option>J'ai déjà un site web</option>
+        </select>
+      </div>
+
+      <button class="btn-submit" id="submitBtn" onclick="analyserIdee()">
+        <span id="btn-text">✦ Analyser mon idée avec l'IA</span>
+        <div class="loading-dots" id="loading">
+          <span></span><span></span><span></span>
+        </div>
+      </button>
+
+    </div>
+
+    <!-- RÉSULTAT -->
+    <div id="result-box">
+      <div class="result-header">
+        <div class="ai-badge">✦ Akili IA</div>
+        <p>Analyse personnalisée générée pour toi</p>
+      </div>
+      <div id="result-text"></div>
+      <div class="result-cta">
+        <p>Tu veux qu'on construise la solution ensemble ? L'équipe Akili Digital t'accompagne de A à Z :</p>
+        <a href="#" id="whatsapp-btn" class="btn-whatsapp" style="display:none" target="_blank">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.099.546 4.07 1.5 5.786L0 24l6.387-1.473A11.946 11.946 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.867 0-3.617-.484-5.13-1.334l-.368-.217-3.795.875.903-3.704-.24-.381A9.953 9.953 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Continuer sur WhatsApp
+        </a>
+      </div>
+    </div>
+
+    <!-- QUIZ SUIVI -->
+    <div id="quiz-box" style="display:none; margin-top:2rem; animation:fadeUp 0.5s ease both;">
+      <div style="padding:2rem; border:1px solid var(--violet-border); border-radius:12px; background:rgba(124,58,237,0.06);">
+
+        <div style="margin-bottom:1.5rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+            <span style="font-size:0.75rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--violet-light);">✦ Quiz de qualification</span>
+            <span id="quiz-progress-text" style="font-size:0.78rem; color:var(--grey-mid);">Question 1 / 5</span>
+          </div>
+          <div style="height:3px; background:rgba(255,255,255,0.08); border-radius:10px; overflow:hidden;">
+            <div id="quiz-progress-bar" style="height:100%; width:0%; background:var(--violet); border-radius:10px; transition:width 0.4s ease;"></div>
+          </div>
+        </div>
+
+        <div id="quiz-question-wrap">
+          <p style="font-size:0.9rem; color:var(--grey-light); margin-bottom:0.4rem; font-style:italic;">Pour mieux te conseiller :</p>
+          <p id="quiz-question" style="font-size:1.05rem; font-weight:500; margin-bottom:1.5rem; line-height:1.4;"></p>
+          <div id="quiz-options" style="display:flex; flex-direction:column; gap:0.75rem;"></div>
+        </div>
+
+        <div id="quiz-done" style="display:none; text-align:center; padding:1rem 0;">
+          <div style="font-size:2rem; margin-bottom:1rem;">🎯</div>
+          <p style="font-weight:600; font-size:1.05rem; margin-bottom:0.5rem;">Parfait, ton profil est complet !</p>
+          <p style="font-size:0.88rem; color:var(--grey-light); margin-bottom:1.5rem;">Toutes tes infos vont être envoyées à Géofid Nancy directement sur WhatsApp. Un échange de 5 minutes suffira pour démarrer.</p>
+          <a href="#" id="whatsapp-final" class="btn-whatsapp" style="display:none; justify-content:center;" target="_blank">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.099.546 4.07 1.5 5.786L0 24l6.387-1.473A11.946 11.946 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.867 0-3.617-.484-5.13-1.334l-.368-.217-3.795.875.903-3.704-.24-.381A9.953 9.953 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            Envoyer mon dossier à Géofid Nancy
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">
+    <span class="akili">Akili</span><span class="dot">.</span><span class="digital">Digital</span>
+    <span class="powered">Powered by Géofid Nancy</span>
+  </div>
+  <p>© 2025 Akili Digital · Afrique Francophone</p>
+  <p style="color:var(--violet-light); font-size:0.78rem;">L'intelligence au service de ton business.</p>
+</footer>
+
+<script>
+// ─── SCROLL REVEAL ───
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+reveals.forEach(r => observer.observe(r));
+
+
+// ─── GÉNÉRATEUR DE DIAGNOSTIC LOCAL ───
+function genererDiagnostic(prenom, secteur, idee, objectif, budget, presence) {
+  const nom = prenom ? prenom : "toi";
+
+  const diagnostics = {
+    "Commerce / Vente": "ton activité commerciale repose entièrement sur des contacts directs et du bouche-à-oreille, ce qui limite fortement ta portée quotidienne",
+    "Artisanat / Création": "ton talent de créateur reste invisible pour 99% de tes clients potentiels qui ne savent tout simplement pas que tu existes",
+    "Restauration / Food": "sans présence digitale structurée, tu perds chaque jour des clients qui cherchent où manger ou commander en ligne",
+    "Services (coiffure, couture...)": "tes clients actuels te trouvent par chance ou par recommandation — un flux aléatoire qui ne te permet pas de planifier ton activité",
+    "Musique / Art / Divertissement": "ton contenu et ton talent peinent à atteindre un public plus large parce qu'il n'existe pas de point d'entrée digital professionnel vers ton univers",
+    "Éducation / Formation": "ta crédibilité en tant que formateur est directement limitée par l'absence d'une vitrine qui démontre ton expertise et tes résultats",
+    "Santé / Bien-être": "dans ton secteur, la confiance est primordiale — et sans présence digitale sérieuse, des clients potentiels choisissent des concurrents moins compétents mais mieux visibles",
+    "Transport / Livraison": "tu manques des commandes chaque jour parce que des clients qui ont besoin de tes services ne savent pas comment te trouver ou te contacter facilement",
+    "Influenceur / Créateur de contenu": "ta croissance est freinée par l'absence d'un hub central qui centralise ton identité, tes services et tes tarifs pour les marques et partenaires",
+    "Autre": "ton activité manque d'une présence digitale claire qui permettrait à tes clients potentiels de te trouver, de te comprendre et de te faire confiance rapidement"
+  };
+
+  const freins = {
+    "Aucune présence pour l'instant": [
+      "Tu es totalement absent des espaces où tes clients cherchent des services — moteurs de recherche, réseaux sociaux, recommandations en ligne.",
+      "Sans trace digitale, chaque nouveau client demande un effort énorme de ta part. Il n'y a aucun système qui travaille pour toi en dehors de tes heures actives.",
+      "Tes concurrents, même moins bons que toi, captent les clients que tu aurais pu avoir — simplement parce qu'ils sont visibles et toi non."
+    ],
+    "Seulement WhatsApp personnel": [
+      "Un numéro WhatsApp personnel ne inspire pas confiance à un inconnu — il lui manque les signaux de sérieux qu'une vraie présence digitale procure.",
+      "Tu n'as aucun moyen de montrer ton travail, tes offres et tes prix de façon structurée avant que le client te contacte.",
+      "Tout repose sur toi : si tu ne réponds pas immédiatement, le client potentiel passe à quelqu'un d'autre."
+    ],
+    "Une page Facebook ou Instagram": [
+      "Une page sociale seule n'est pas suffisante — l'algorithme limite ta visibilité, et tu dépends d'une plateforme que tu ne contrôles pas.",
+      "Il te manque un endroit qui t'appartient vraiment, où tes offres, tes tarifs et ton processus sont clairs et accessibles à tout moment.",
+      "Tes prospects ne savent pas facilement comment passer à l'achat ou à la prise de contact — il manque un tunnel clair."
+    ],
+    "Plusieurs réseaux actifs": [
+      "Avoir plusieurs réseaux sans tunnel central crée de la dispersion — tes efforts ne convergent pas vers une action concrète de la part du client.",
+      "Tu passes du temps à produire du contenu sans système qui transforme tes abonnés en clients payants.",
+      "Il te manque un point d'entrée unique qui qualifie et oriente automatiquement tes prospects."
+    ],
+    "J'ai déjà un site web": [
+      "Avoir un site sans tunnel de conversion, c'est avoir une vitrine sans vendeur — les visiteurs partent sans agir.",
+      "Il te manque probablement un système qui engage le visiteur, comprend son besoin et le dirige vers toi de façon personnalisée.",
+      "Un site statique ne suffit plus — les clients d'aujourd'hui s'attendent à de l'interaction et de la personnalisation."
+    ]
+  };
+
+  const objectifTexte = {
+    "Être visible en ligne": "ta visibilité actuelle est clairement insuffisante pour atteindre cet objectif",
+    "Vendre plus de produits/services": "sans système digital structuré, chaque vente dépend de toi personnellement — c'est un plafond de verre",
+    "Trouver des clients": "trouver des clients sans présence digitale, c'est pêcher sans filet — épuisant et peu efficace",
+    "Construire ma marque personnelle": "une marque personnelle forte se construit sur une présence digitale cohérente et professionnelle — pas encore en place",
+    "Développer ma communauté": "développer une communauté demande un hub central qui n'existe pas encore dans ta situation actuelle"
+  };
+
+  const freinsArray = freins[presence] || freins["Seulement WhatsApp personnel"];
+  const diagText = diagnostics[secteur] || diagnostics["Autre"];
+  const objText = objectifTexte[objectif] || "ton objectif nécessite une base digitale solide qui n'est pas encore en place";
+
+  return `📊 TON DIAGNOSTIC
+
+${nom.charAt(0).toUpperCase() + nom.slice(1)}, en analysant ta situation, il apparaît que ${diagText}. Avec pour objectif de "${objectif}", ${objText}. Chaque jour sans structure digitale est une opportunité commerciale perdue.
+
+⚠️ CE QUI FREINE TON BUSINESS
+
+• ${freinsArray[0]}
+
+• ${freinsArray[1]}
+
+• ${freinsArray[2]}
+
+💡 CE QU'IL FAUT FAIRE
+
+Ta situation nécessite une présence digitale structurée et cohérente — pas juste un compte sur les réseaux, mais un vrai système qui présente ton activité, crée la confiance et oriente automatiquement tes prospects vers toi. Ton budget de ${budget || "départ"} est suffisant pour poser des bases solides.
+
+Pour aller plus loin et construire la solution adaptée à ton cas, l'équipe Akili Digital est là pour t'accompagner.`;
+}
+
+// ─── STATE ───
+let userData = {};
+let analyseText = '';
+
+// ─── QUIZ SUIVI (questions après analyse) ───
+const quizQuestions = [
+  { id: 'q1', label: 'As-tu déjà un nom de marque ou un logo ?', options: ['Oui, les deux', 'Seulement le nom', 'Non, rien encore', 'Je veux changer'] },
+  { id: 'q2', label: 'Comment tes clients te trouvent-ils actuellement ?', options: ['Bouche à oreille', 'Réseaux sociaux', 'WhatsApp perso', 'Ils ne me trouvent pas encore'] },
+  { id: 'q3', label: 'Tu vends quoi exactement ?', options: ['Produits physiques', 'Services / Prestations', 'Contenu / Formations', 'Les deux'] },
+  { id: 'q4', label: 'C\'est quoi ta plus grande difficulté en ce moment ?', options: ['Manque de visibilité', 'Pas assez de clients', 'Image pas professionnelle', 'Je ne sais pas par où commencer'] },
+  { id: 'q5', label: 'Tu veux démarrer quand ?', options: ['Dès maintenant', 'Dans 1 à 2 semaines', 'Dans 1 mois', 'Je prends mon temps'] },
+];
+
+let quizAnswers = {};
+let currentQ = 0;
+
+// ─── ANALYSE IA ───
+async function analyserIdee() {
+  const prenom = document.getElementById('prenom').value.trim();
+  const secteur = document.getElementById('secteur').value;
+  const idee = document.getElementById('idee').value.trim();
+  const objectif = document.getElementById('objectif').value;
+  const budget = document.getElementById('budget').value;
+  const presence = document.getElementById('presence').value;
+
+  if (!idee || !secteur || !objectif) {
+    alert('Merci de remplir au moins : ton secteur, ton idée et ton objectif.');
+    return;
+  }
+
+  userData = { prenom, secteur, idee, objectif, budget, presence };
+
+  const btn = document.getElementById('submitBtn');
+  const btnText = document.getElementById('btn-text');
+  const loading = document.getElementById('loading');
+  const resultBox = document.getElementById('result-box');
+  const resultText = document.getElementById('result-text');
+
+  btn.disabled = true;
+  btnText.style.display = 'none';
+  loading.style.display = 'flex';
+  resultBox.style.display = 'none';
+
+  const prompt = `Tu es Akili, un consultant digital expert en Afrique francophone travaillant pour Akili Digital (powered by Géofid Nancy). Ton rôle est de faire un diagnostic professionnel qui montre à quel point la situation est importante à traiter — sans donner les solutions techniques concrètes. Les solutions, c'est Akili Digital qui les fournit en accompagnement payant.
+
+Prénom : ${prenom || 'Non précisé'}
+Secteur : ${secteur}
+Idée/Business : ${idee}
+Objectif principal : ${objectif}
+Budget disponible : ${budget || 'Non précisé'}
+Présence digitale actuelle : ${presence || 'Non précisé'}
+
+Génère une analyse structurée en 3 parties :
+
+1. 📊 TON DIAGNOSTIC (2-3 phrases : identifie clairement les lacunes digitales actuelles et ce que ça lui coûte en opportunités manquées.)
+
+2. ⚠️ CE QUI FREINE TON BUSINESS (2-3 points concrets sur pourquoi sa situation actuelle limite sa croissance. Montre la valeur manquée, sans expliquer comment y remédier.)
+
+3. 💡 CE QU'IL FAUT FAIRE (Directions générales uniquement — jamais d'instructions techniques. Termine par : "Pour aller plus loin et construire la solution adaptée à ton cas, l'équipe Akili Digital est là pour t'accompagner.")
+
+RÈGLE ABSOLUE : Ne donne JAMAIS d'instructions techniques ni d'étapes pratiques autonomes. Sois chaleureux, professionnel. Maximum 220 mots.`;
+
+  // Délai réaliste
+  await new Promise(r => setTimeout(r, 2200));
+
+  analyseText = genererDiagnostic(prenom, secteur, idee, objectif, budget, presence);
+
+  resultText.textContent = analyseText;
+  resultBox.style.display = 'block';
+  resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  setTimeout(() => lancerQuiz(), 1500);
+
+  btn.disabled = false;
+  btnText.style.display = 'inline';
+  loading.style.display = 'none';
+}
+
+// ─── QUIZ ───
+function lancerQuiz() {
+  currentQ = 0;
+  quizAnswers = {};
+  const quizBox = document.getElementById('quiz-box');
+  quizBox.style.display = 'block';
+  quizBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  afficherQuestion();
+}
+
+function afficherQuestion() {
+  const q = quizQuestions[currentQ];
+  const total = quizQuestions.length;
+
+  document.getElementById('quiz-progress-text').textContent = `Question ${currentQ + 1} / ${total}`;
+  document.getElementById('quiz-progress-bar').style.width = `${((currentQ) / total) * 100}%`;
+  document.getElementById('quiz-question').textContent = q.label;
+
+  const opts = document.getElementById('quiz-options');
+  opts.innerHTML = '';
+  q.options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => choisirReponse(opt);
+    opts.appendChild(btn);
+  });
+}
+
+function choisirReponse(reponse) {
+  quizAnswers[quizQuestions[currentQ].label] = reponse;
+
+  // Highlight selected
+  document.querySelectorAll('.quiz-option').forEach(b => {
+    b.style.opacity = '0.4';
+    b.style.pointerEvents = 'none';
+  });
+  event.target.style.opacity = '1';
+  event.target.style.borderColor = 'var(--violet-light)';
+  event.target.style.background = 'rgba(124,58,237,0.2)';
+
+  setTimeout(() => {
+    currentQ++;
+    if (currentQ < quizQuestions.length) {
+      afficherQuestion();
+      document.getElementById('quiz-progress-bar').style.width = `${(currentQ / quizQuestions.length) * 100}%`;
+    } else {
+      // Quiz terminé
+      document.getElementById('quiz-progress-bar').style.width = '100%';
+      document.getElementById('quiz-progress-text').textContent = 'Terminé ✓';
+      document.getElementById('quiz-question-wrap').style.display = 'none';
+      document.getElementById('quiz-done').style.display = 'block';
+      construireWA();
+    }
+  }, 400);
+}
+
+function construireWA() {
+  const { prenom, secteur, idee, objectif, budget, presence } = userData;
+
+  let quizSummary = '';
+  Object.entries(quizAnswers).forEach(([q, r]) => {
+    quizSummary += `• ${q} → ${r}\n`;
+  });
+
+  const waMessage =
+`Bonjour Akili Digital 👋
+
+Je viens de faire le diagnostic complet sur votre site.
+
+━━━━━━━━━━━━━━━━
+📋 *PROFIL DE BASE*
+━━━━━━━━━━━━━━━━
+• Prénom : ${prenom || 'Non précisé'}
+• Secteur : ${secteur}
+• Objectif : ${objectif}
+• Budget : ${budget || 'à discuter'}
+• Présence actuelle : ${presence || 'à préciser'}
+
+💡 *MON IDÉE / BUSINESS*
+${idee}
+
+━━━━━━━━━━━━━━━━
+🎯 *MES RÉPONSES AU QUIZ*
+━━━━━━━━━━━━━━━━
+${quizSummary}
+━━━━━━━━━━━━━━━━
+
+Je suis prêt(e) à démarrer avec Akili Digital. Quand peut-on en parler ?`;
+
+  document.getElementById('whatsapp-final').href = `https://wa.me/22967469342?text=${encodeURIComponent(waMessage)}`;
+  document.getElementById('whatsapp-final').style.display = 'inline-flex';
+}
+
+function afficherBoutonWA() {
+  const { secteur, idee, objectif, budget, presence } = userData;
+  const waMessage = `Bonjour Akili Digital 👋\n\nJe viens de visiter votre site.\n\n• Secteur : ${secteur}\n• Objectif : ${objectif}\n• Budget : ${budget || 'à discuter'}\n\n💡 Mon idée : ${idee}\n\nJe souhaite en savoir plus !`;
+  document.getElementById('whatsapp-btn').href = `https://wa.me/22967469342?text=${encodeURIComponent(waMessage)}`;
+  document.getElementById('whatsapp-btn').style.display = 'inline-flex';
+}
+</script>
+</body>
+</html>
